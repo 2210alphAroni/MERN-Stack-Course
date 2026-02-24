@@ -1,7 +1,12 @@
 
 let express = require('express');
+require("dotenv").config()
 let app = express();
 const checkTokenMiddleware = require('./checkTokenMiddleware');
+
+//checking debug token from env file
+// console.log(process.env.MYToken);  
+
 
 // Middleware function to log request details
 
@@ -21,4 +26,4 @@ app.get('/news', checkTokenMiddleware, (req, res) => {
     });
 });
 
-app.listen("3000");
+app.listen(process.env.port || 5000);
