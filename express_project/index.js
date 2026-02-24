@@ -3,6 +3,44 @@ let express=require('express');
 let app=express();
 app.use(express.json()); //for parsing application/json
 
+let myToken="12345";
+let myPass="12345";
+
+let checkToken=(req, res, next)=>{
+    if(req.query.token=="" || req.query.token==undefined){
+        return res.send({
+            status:0,
+            msg:"Token is required. Please provide token in query parameter"
+        })
+    } 
+    else if(req.query.token!=myToken){
+            return res.send({
+                status:0,
+                msg:"Invalid token. Please provide valid token"
+            })
+        }
+        next();
+    }
+
+app.use(checkToken); //global middleware or Application level middleware
+
+
+app.use((req, res, next)=>{
+    if(req.query.pass=="" || req.query.pass==undefined){
+        return res.send({
+            status:0,
+            msg:"Password is required. Please provide password in query parameter"
+        })
+    } 
+    else if(req.query.pass!=myPass){
+            return res.send({
+                status:0,
+                msg:"Invalid password. Please provide valid password"
+            })
+        }
+        next();
+})
+
 app.get('/',(req, res)=>{
     res.send('Home Page API');
 })
